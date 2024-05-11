@@ -17,15 +17,13 @@ def main(args: String*): Unit = {
 
   val conf = Conf(args)
   implicit val logger: String => Unit = if (conf.verbose()) println else (msg: String) => ()
-  val router = Router {
-    case _ => Response("Hello")
-  }
+
   val server = if (conf.socket.isDefined) {
     println(s"Using unix socket: ${conf.socket()}")
-    Server(router, socket = conf.socket.toOption)
+    Server(Endpoints.router, socket = conf.socket.toOption)
   } else {
     println(s"Using host/port: ${conf.host()}:${conf.port()}")
-    Server(router, conf.host(), conf.port())
+    Server(Endpoints.router, conf.host(), conf.port())
   }
   server.serve()
 }
