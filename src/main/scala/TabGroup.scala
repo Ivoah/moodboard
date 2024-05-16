@@ -15,7 +15,6 @@ case class TabGroup(tabs: Seq[(String, Frag)]) extends CustomComponent {
              |$$("#${scoped("tab-group")} .tab").removeAttr("active");
              |$$("#${scoped(s"tab-$i")}").attr("active", "");
              |$$("#${scoped(s"tab-body-$i")}").show();
-             |
              |""".stripMargin,
         title
       )
