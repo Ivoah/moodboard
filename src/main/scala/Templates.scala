@@ -13,12 +13,10 @@ object Templates {
     script(src:="https://code.jquery.com/jquery-3.7.1.min.js")
   )
 
-  def root(): String = doctype + html(
+  def root(id: String): String = doctype + html(
     _head("Moodboard"),
     body(
-//      div(display:="flex", flexWrap:="wrap",
-//        for (i <- 0 until 4) yield Calendar(2024, 5, backgroundColor:="green", p("hello")).render
-//      )
+      div(display:="flex", justifyContent:="space-between", h3(s"Hello $id"), a(href:="/logout", "logout")),
       TabGroup(for (i <- 1 to 5) yield s"TAB $i" -> frag(
         Calendar(2024, i),
         div(maxWidth:="400px",
@@ -39,10 +37,23 @@ object Templates {
   def login(): String = doctype + html(
     _head("Login"),
     body(
+      h3("Login"),
       form(method:="post",
         input(`type`:="text", name:="username"), br(),
         input(`type`:="password", name:="password"), br(),
         button("login")
+      )
+    )
+  )
+
+  def register(): String = doctype + html(
+    _head("Register"),
+    body(
+      h3("Register"),
+      form(method:="post",
+        input(`type`:="text", name:="username"), br(),
+        input(`type`:="password", name:="password"), br(),
+        button("register")
       )
     )
   )

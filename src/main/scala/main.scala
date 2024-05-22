@@ -3,6 +3,10 @@ package net.ivoah.moodboard
 import net.ivoah.vial.*
 import org.rogach.scallop.*
 
+import java.sql.{Connection, DriverManager}
+import scala.io.Source
+import scala.util.Using
+
 @main
 def main(args: String*): Unit = {
   class Conf(args: Seq[String]) extends ScallopConf(args) {
@@ -18,12 +22,17 @@ def main(args: String*): Unit = {
   val conf = Conf(args)
   implicit val logger: String => Unit = if (conf.verbose()) println else (msg: String) => ()
 
+  val s"$user:$password" = Using.resource(Source.fromResource("credentials.txt"))(_.getLines().mkString("\n")): @unchecked
+  implicit val db: Connection = DriverManager.getConnection("jdbc:mysql://ivoah.net/moodmapper?autoReconnect=true", user, password)
+
+  val app = App(db)
+
   val server = if (conf.socket.isDefined) {
     println(s"Using unix socket: ${conf.socket()}")
-    Server(Endpoints.router, socket = conf.socket.toOption)
+    Server(app.router, socket = conf.socket.toOption)
   } else {
     println(s"Using host/port: ${conf.host()}:${conf.port()}")
-    Server(Endpoints.router, conf.host(), conf.port())
+    Server(app.router, conf.host(), conf.port())
   }
   server.serve()
 }

@@ -17,7 +17,11 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "net.ivoah" %% "vial" % "0.3.3",
       "com.lihaoyi" %% "scalatags" % "0.12.0",
-      "org.rogach" %% "scallop" % "4.1.0"
+      "org.rogach" %% "scallop" % "5.1.0",
+      "org.springframework.security" % "spring-security-crypto" % "6.3.0",
+      "org.bouncycastle" % "bcprov-jdk15on" % "1.64",
+      "commons-logging" % "commons-logging" % "1.3.1",
+      "mysql" % "mysql-connector-java" % "8.0.28"
     ),
     assembly / assemblyOutputPath := file("moodboard.jar")
   )
