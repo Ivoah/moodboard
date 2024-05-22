@@ -1,4 +1,4 @@
-package net.ivoah.moodboard
+package net.ivoah.moodmapper
 
 import java.util.UUID
 import scalatags.Text.Frag

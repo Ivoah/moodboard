@@ -1,4 +1,4 @@
-package net.ivoah.moodboard
+package net.ivoah.moodmapper
 
 import scala.util.Random
 

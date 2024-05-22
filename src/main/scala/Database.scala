@@ -1,4 +1,4 @@
-package net.ivoah.moodboard
+package net.ivoah.moodmapper
 
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 

@@ -12,8 +12,8 @@ ThisBuild / assemblyMergeStrategy := {
 
 lazy val root = (project in file("."))
   .settings(
-    name := "moodboard",
-    idePackagePrefix := Some("net.ivoah.moodboard"),
+    name := "moodmapper",
+    idePackagePrefix := Some("net.ivoah.moodmapper"),
     libraryDependencies ++= Seq(
       "net.ivoah" %% "vial" % "0.3.3",
       "com.lihaoyi" %% "scalatags" % "0.12.0",
@@ -23,5 +23,5 @@ lazy val root = (project in file("."))
       "commons-logging" % "commons-logging" % "1.3.1",
       "mysql" % "mysql-connector-java" % "8.0.28"
     ),
-    assembly / assemblyOutputPath := file("moodboard.jar")
+    assembly / assemblyOutputPath := file("moodmapper.jar")
   )

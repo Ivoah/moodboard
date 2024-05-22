@@ -1,4 +1,4 @@
-package net.ivoah.moodboard
+package net.ivoah.moodmapper
 
 import scalatags.Text.all.*
 import scalatags.Text.tags2.title
@@ -14,7 +14,7 @@ object Templates {
   )
 
   def root(id: String): String = doctype + html(
-    _head("Moodboard"),
+    _head("Moodmapper"),
     body(
       div(display:="flex", justifyContent:="space-between", h3(s"Hello $id"), a(href:="/logout", "logout")),
       TabGroup(for (i <- 1 to 5) yield s"TAB $i" -> frag(
