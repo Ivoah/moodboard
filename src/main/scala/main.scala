@@ -23,7 +23,7 @@ def main(args: String*): Unit = {
   implicit val logger: String => Unit = if (conf.verbose()) println else (msg: String) => ()
 
   val s"$user:$password" = Using.resource(Source.fromResource("credentials.txt"))(_.getLines().mkString("\n")): @unchecked
-  implicit val db: Connection = DriverManager.getConnection("jdbc:mysql://ivoah.net/moodmapper?autoReconnect=true", user, password)
+  val db = Database(user, password)
 
   val app = App(db)
 
