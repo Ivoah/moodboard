@@ -13,14 +13,13 @@ object Templates {
     script(src:="https://code.jquery.com/jquery-3.7.1.min.js")
   )
 
-  def root(id: String): String = doctype + html(
+  def root(id: String, categories: Seq[String]): String = doctype + html(
     _head("Moodmapper"),
     body(
       div(display:="flex", justifyContent:="space-between", h3(s"Hello $id"), a(href:="/logout", "logout")),
-      TabGroup(for (i <- 1 to 5) yield s"TAB $i" -> frag(
-        Calendar(2024, i),
-        div(maxWidth:="400px",
-          p(strong("tracker:"), s" fatigue/energy"),
+      TabGroup(for (category <- categories) yield category -> frag(
+        Calendar(2024, 5),
+        div(maxWidth:="400px", margin:="auto",
           div(display:="flex", flexDirection:="row", flexWrap:="wrap", justifyContent:="space-between",
             for (i <- 0 until 10) yield div(display:="flex", flexDirection:="column", textAlign:="center",
               div(display:="flex", justifyContent:="center",

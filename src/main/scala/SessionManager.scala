@@ -5,9 +5,9 @@ import net.ivoah.vial.*
 import scala.util.Random
 
 case class SessionManager(unauthRedirect: String, loginRedirect: String) {
-  private val sessions = collection.mutable.Map[String, String]()
+  private val sessions = collection.mutable.Map[String, Int]()
 
-  def authenticated(request: Request)(response: String => Response): Response = {
+  def authenticated(request: Request)(response: Int => Response): Response = {
     request.cookies
       .find(_.name == "session")
       .map(_.value)
@@ -16,7 +16,7 @@ case class SessionManager(unauthRedirect: String, loginRedirect: String) {
       .getOrElse(Response.Redirect(unauthRedirect))
   }
 
-  def login(id: String): Response = {
+  def login(id: Int): Response = {
     val session = Random.alphanumeric.take(64).mkString
     sessions(session) = id
     Response.Redirect(loginRedirect).set_cookie(Cookie("session", session))

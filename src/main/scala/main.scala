@@ -25,7 +25,7 @@ def main(args: String*): Unit = {
   val s"$user:$password" = Using.resource(Source.fromResource("credentials.txt"))(_.getLines().mkString("\n")): @unchecked
   val db = Database(user, password)
 
-  val app = App(db)
+  val app = Moodmapper(db)
 
   val server = if (conf.socket.isDefined) {
     println(s"Using unix socket: ${conf.socket()}")
