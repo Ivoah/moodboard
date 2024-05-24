@@ -6,6 +6,11 @@ case class Color(r: Double, g: Double, b: Double) {
   def toCSS: String = s"rgb(${r*255}, ${g*255}, ${b*255})"
 }
 
+object Color {
+  val WHITE: Color = Color(1, 1, 1)
+  val BLACK: Color = Color(0, 0, 0)
+}
+
 class Colormap(val colors: Seq[Color]) {
   def randomColor: Color = colors(Random.nextInt(colors.length))
 }

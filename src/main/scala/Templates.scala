@@ -3,6 +3,8 @@ package net.ivoah.moodmapper
 import scalatags.Text.all.*
 import scalatags.Text.tags2.title
 
+import java.time.*
+
 object Templates {
   private val doctype = "<!DOCTYPE html>\n"
 
@@ -13,12 +15,12 @@ object Templates {
     script(src:="https://code.jquery.com/jquery-3.7.1.min.js")
   )
 
-  def root(id: String, categories: Seq[String]): String = doctype + html(
+  def root(user: User): String = doctype + html(
     _head("Moodmapper"),
     body(
-      div(display:="flex", justifyContent:="space-between", h3(s"Hello $id"), a(href:="/logout", "logout")),
-      TabGroup(for (category <- categories) yield category -> frag(
-        Calendar(2024, 5),
+      div(display:="flex", justifyContent:="space-between", h3(s"Hello ${user.username}"), a(href:="/logout", "logout")),
+      TabGroup(for (category <- user.categories) yield category.name -> frag(
+        Calendar(2024, 5, category.entries(YearMonth.now())),
         div(maxWidth:="400px", margin:="auto",
           div(display:="flex", flexDirection:="row", flexWrap:="wrap", justifyContent:="space-between",
             for (i <- 0 until 10) yield div(display:="flex", flexDirection:="column", textAlign:="center",

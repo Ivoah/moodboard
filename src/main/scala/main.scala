@@ -21,11 +21,8 @@ def main(args: String*): Unit = {
 
   val conf = Conf(args)
   implicit val logger: String => Unit = if (conf.verbose()) println else (msg: String) => ()
-
-  val s"$user:$password" = Using.resource(Source.fromResource("credentials.txt"))(_.getLines().mkString("\n")): @unchecked
-  val db = Database(user, password)
-
-  val app = Moodmapper(db)
+  
+  val app = Moodmapper()
 
   val server = if (conf.socket.isDefined) {
     println(s"Using unix socket: ${conf.socket()}")
