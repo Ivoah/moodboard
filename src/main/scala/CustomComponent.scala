@@ -1,7 +1,8 @@
 package net.ivoah.moodmapper
 
-import java.util.UUID
 import scalatags.Text.Frag
+
+import java.util.UUID
 
 given Conversion[CustomComponent, Frag] = _.render
 

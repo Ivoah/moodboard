@@ -3,9 +3,9 @@ package net.ivoah.moodmapper
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
 
 import java.sql.{Connection, DriverManager, Statement}
-import scala.util.{Try, Using}
 import java.time.*
 import scala.io.Source
+import scala.util.{Try, Using}
 
 object Database {
   val connection: Connection = {

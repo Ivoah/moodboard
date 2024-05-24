@@ -1,9 +1,10 @@
 package net.ivoah.moodmapper
 
-import java.time.*
-import java.time.format.{DateTimeFormatter, TextStyle}
-import java.util.Locale
 import scalatags.Text.all.*
+
+import java.time.*
+import java.time.format.TextStyle
+import java.util.Locale
 
 val DAYS_OF_WEEK = Seq(DayOfWeek.SUNDAY, DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY)
 

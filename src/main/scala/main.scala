@@ -3,10 +3,6 @@ package net.ivoah.moodmapper
 import net.ivoah.vial.*
 import org.rogach.scallop.*
 
-import java.sql.{Connection, DriverManager}
-import scala.io.Source
-import scala.util.Using
-
 @main
 def main(args: String*): Unit = {
   class Conf(args: Seq[String]) extends ScallopConf(args) {
