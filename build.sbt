@@ -15,7 +15,7 @@ lazy val root = (project in file("."))
     name := "moodmapper",
     idePackagePrefix := Some("net.ivoah.moodmapper"),
     libraryDependencies ++= Seq(
-      "net.ivoah" %% "vial" % "0.3.3",
+      "net.ivoah" %% "vial" % "0.4.0",
       "com.lihaoyi" %% "scalatags" % "0.12.0",
       "org.rogach" %% "scallop" % "5.1.0",
       "org.springframework.security" % "spring-security-crypto" % "6.3.0",

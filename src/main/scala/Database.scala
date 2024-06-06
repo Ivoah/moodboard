@@ -8,13 +8,13 @@ import scala.io.Source
 import scala.util.{Try, Using}
 
 object Database {
-  val connection: Connection = {
+  private val connection: Connection = {
     val s"$user:$password" = Using.resource(Source.fromResource("credentials.txt"))(_.getLines().mkString("\n")): @unchecked
     DriverManager.getConnection("jdbc:mysql://ivoah.net/moodmapper?autoReconnect=true", user, password)
   }
   private val argon2 = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
 
-  def isValidLogin(username: String, password: String): Option[User] = {
+  def getUser(username: String, password: String): Option[User] = {
     val results = Using.resource({
       connection.prepareStatement("SELECT id, username, hash FROM user WHERE username = ?")
     }) { stmt =>
@@ -43,7 +43,7 @@ object Database {
     }.toOption.map(User(_, username, hash))
   }
 
-  def getUser(id: Int): User = {
+  def getUserById(id: Int): User = {
     Using.resource({
       connection.prepareStatement("SELECT id, username, hash FROM user WHERE id = ?")
     }) { stmt =>
@@ -54,18 +54,43 @@ object Database {
     }
   }
 
-  def getCategories(id: Int): Seq[Category] = {
+  def getColormaps(owner: Int): Seq[Colormap] = {
     Using.resource({
-      connection.prepareStatement("SELECT id, name, owner FROM category WHERE owner = ?")
+      connection.prepareStatement("SELECT id, name, owner, colors FROM colormap WHERE owner = ?")
     }) { stmt =>
-      stmt.setInt(1, id)
+      stmt.setInt(1, owner)
+      val results = stmt.executeQuery()
+      val buffer = collection.mutable.Buffer[Colormap]()
+      while (results.next()) {
+        buffer.append(Colormap(
+          results.getInt("id"),
+          results.getString("name"),
+          results.getInt("owner"),
+          results.getString("colors").split(";").map(Color.fromHex)
+        ))
+      }
+      buffer.toSeq
+    }
+  }
+
+  def getCategories(owner: Int): Seq[Category] = {
+    Using.resource({
+      connection.prepareStatement("SELECT category.id, category.name, category.owner, colormap.id, colormap.name, colormap.owner, colormap.colors FROM category JOIN colormap ON category.colormap = colormap.id WHERE category.owner = ?")
+    }) { stmt =>
+      stmt.setInt(1, owner)
       val results = stmt.executeQuery()
       val buffer = collection.mutable.Buffer[Category]()
       while (results.next()) {
         buffer.append(Category(
-          results.getInt("id"),
-          results.getString("name"),
-          results.getInt("owner")
+          results.getInt("category.id"),
+          results.getString("category.name"),
+          results.getInt("category.owner"),
+          Colormap(
+            results.getInt("colormap.id"),
+            results.getString("colormap.name"),
+            results.getInt("colormap.owner"),
+            results.getString("colormap.colors").split(";").map(Color.fromHex)
+          )
         ))
       }
       buffer.toSeq

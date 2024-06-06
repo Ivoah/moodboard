@@ -10,8 +10,8 @@ object Templates {
 
   private def _head(_title: String) = head(
     title(_title),
-    link(rel := "icon", href := "/static/favicon.png"),
-    link(rel := "stylesheet", href := "/static/style.css"),
+    link(rel:="icon", href:="/static/favicon.png"),
+    link(rel:="stylesheet", href:="/static/style.css"),
     script(src:="https://code.jquery.com/jquery-3.7.1.min.js")
   )
 
@@ -20,12 +20,12 @@ object Templates {
     body(
       div(display:="flex", justifyContent:="space-between", h3(s"Hello ${user.username}"), a(href:="/logout", "logout")),
       TabGroup(for (category <- user.categories) yield category.name -> frag(
-        Calendar(2024, 5, category.entries(YearMonth.now())),
+        Calendar(2024, 5, category.entries(YearMonth.now()), category.colormap),
         div(maxWidth:="400px", margin:="auto",
           div(display:="flex", flexDirection:="row", flexWrap:="wrap", justifyContent:="space-between",
             for (i <- 0 until 10) yield div(display:="flex", flexDirection:="column", textAlign:="center",
               div(display:="flex", justifyContent:="center",
-                div(backgroundColor:=Colormap.MOCKUP.colors(i).toCSS, width:="25px", height:="25px", borderRadius:="50%")
+                div(backgroundColor:=category.colormap.color(i).toCSS, width:="25px", height:="25px", borderRadius:="50%")
               ),
               strong(i + 1, margin:="10px")
             )

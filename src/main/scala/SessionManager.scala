@@ -19,11 +19,13 @@ case class SessionManager[T](unauthRedirect: String, loginRedirect: String) {
   def login(id: T): Response = {
     val session = Random.alphanumeric.take(64).mkString
     sessions(session) = id
-    Response.Redirect(loginRedirect).set_cookie(Cookie("session", session))
+    Response.Redirect(loginRedirect)
+      .withCookie(Cookie("session", session, httpOnly = Some(true)))
   }
 
   def logout(session: String): Response = {
     sessions.remove(session)
     Response.Redirect(loginRedirect)
+      .withCookie(Cookie("session", "", maxAge = Some(0)))
   }
 }

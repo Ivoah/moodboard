@@ -18,8 +18,8 @@ case class Moodmapper() {
 
     case ("GET", "/login", request) => Response(Templates.login())
     case ("POST", "/login", request) =>
-      Database.isValidLogin(request.form("username"), request.form("password")) match {
-        case Some(id) => sessionManager.login(id)
+      Database.getUser(request.form("username"), request.form("password")) match {
+        case Some(user) => sessionManager.login(user)
         case None => Response.Redirect("/login")
       }
     case ("GET", "/register", request) => Response(Templates.register())
